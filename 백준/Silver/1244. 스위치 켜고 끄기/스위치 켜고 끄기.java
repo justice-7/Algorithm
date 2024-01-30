@@ -5,44 +5,31 @@ import java.io.InputStreamReader;
 public class Main {
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	static StringBuilder sb = new StringBuilder();
+	static int switchCnt,studentCnt;
+	static String[] state;
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
-		int switchCnt = Integer.parseInt(br.readLine());
-		String[] state = br.readLine().split(" ");
-		int studentCnt = Integer.parseInt(br.readLine());
+		switchCnt = Integer.parseInt(br.readLine());
+		state = br.readLine().split(" ");
+		studentCnt = Integer.parseInt(br.readLine());
 		for (int i=0; i<studentCnt; i++) {
 			String[] student = br.readLine().split(" ");
-			int num = Integer.parseInt(student[1]);
-			int next = num;
+			int num = Integer.parseInt(student[1])-1;
+			int next = num+1;
 			if (student[0].equals("1")) {
-				while (num-1<switchCnt) {
-					if (state[num-1].equals("1"))
-						state[num-1]="0";
-					else
-						state[num-1]="1";
+				while (num<switchCnt) {
+					change(num);
 					num+=next;
 				}
 			}
 			else {
-				num-=1;
-				if (state[num].equals("1"))
-					state[num]="0";
-				else
-					state[num]="1";
+				change(num);
 				int left = num-1;
 				int right = num+1;
 				while (left>=0 && right<switchCnt) {
 					if (state[left].equals(state[right])) {
-						if (state[left].equals("1")) {
-							state[left]="0";
-							state[right]="0";
-						}
-						else {
-							state[left]="1";
-							state[right]="1";
-						}
-						left--;
-						right++;
+						change(left--);
+						change(right++);
 					}
 					else
 						break;
@@ -56,5 +43,14 @@ public class Main {
 			}
 		}
 		System.out.println(sb);
+	}
+	
+	public static void change(int index) {
+		if (state[index].equals("1")) {
+			state[index]="0";
+		}
+		else {
+			state[index]="1";
+		}
 	}
 }
