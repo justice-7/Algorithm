@@ -1,5 +1,4 @@
-import java.util.LinkedList;
-import java.util.Queue;
+// 수학적 풀이
 import java.util.Scanner;
 
 public class Main {
@@ -7,15 +6,14 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		int n = input.nextInt();
-		Queue<Integer> q = new LinkedList<>();
-		for (int i=1; i<=n; i++) {
-			q.offer(i);
+		String nToB = Integer.toBinaryString(n);
+		int remain = n & ((1<<nToB.length()-1)-1);
+		if (remain == 0) {
+			System.out.println(n);
 		}
-		while (q.size()>1) {
-			q.poll();
-			q.offer(q.poll());
+		else {
+			System.out.println(2*remain);
 		}
-		System.out.println(q.poll());
 		input.close();
 	}
 }
