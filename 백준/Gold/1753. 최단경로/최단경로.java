@@ -1,14 +1,14 @@
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
-    
+
     static List<int[]>[] edge;
     static int[] weightList;
-    
+    static StringBuilder sb=new StringBuilder();
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
@@ -18,16 +18,16 @@ public class Main {
         int e = Integer.parseInt(st.nextToken());
 
         int k = Integer.parseInt(br.readLine());
-        
+
         edge=new ArrayList[v+1];
-        
+
         for(int i=0; i<v+1; i++){
             edge[i]=new ArrayList<>();
         }
 
         weightList=new int[v+1];
         Arrays.fill(weightList,Integer.MAX_VALUE);
-        
+
         for(int i=0; i<e; i++){
             st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
@@ -46,12 +46,13 @@ public class Main {
 
         for(int i=1; i<v+1; i++){
             if(weightList[i]==Integer.MAX_VALUE){
-                System.out.println("INF");
+                sb.append("INF\n");
             }
             else {
-                System.out.println(weightList[i]);
+                sb.append(weightList[i]).append("\n");
             }
         }
+        System.out.print(sb);
     }
 
     public static void dijk(int start){
