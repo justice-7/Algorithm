@@ -4,24 +4,17 @@ class Solution {
         String answer = "";
         Map<String, Integer> map = new HashMap<>();
         for (int i=0; i<participant.length; i++){
-            String nowKey = participant[i];
-            if (map.containsKey(nowKey)){
-                map.put(nowKey,map.get(nowKey)+1);
-            }
-            else {
-                map.put(nowKey,1);
-            }
+            map.put(participant[i], map.getOrDefault(participant[i], 0)+1);
         }
         for (int j=0; j<completion.length; j++){
-            String nowKey = completion[j];
-            if (map.get(nowKey)-1==0){
-                map.remove(nowKey);
-            }
-            else {
-                map.put(nowKey, map.get(nowKey)-1);
+            map.put(completion[j], map.get(completion[j])-1);
+        }
+        for (String key:map.keySet()){
+            if (map.get(key)!=0){
+                answer = key;
+                break;
             }
         }
-        System.out.println();
-        return (String)map.keySet().toArray()[0];
+        return answer;
     }
 }
