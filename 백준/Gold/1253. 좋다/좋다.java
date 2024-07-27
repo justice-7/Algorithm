@@ -21,13 +21,11 @@ public class Main {
 			while (start<end) {
 				if (start==j) {
 					start++;
-					continue;
 				}
 				else if (end==j) {
 					end--;
-					continue;
 				}
-				if (a[start]+a[end]==a[j]) {
+				else if (a[start]+a[end]==a[j]) {
 					result++;
 					break;
 				}
