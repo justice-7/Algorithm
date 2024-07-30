@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -11,34 +10,32 @@ public class Main {
 		st = new StringTokenizer(br.readLine());
 		int n = Integer.parseInt(st.nextToken());
 		int m = Integer.parseInt(st.nextToken());
-		int[] len = new int[n];
+		int[] minute = new int[n+1];
 		st = new StringTokenizer(br.readLine());
-		int end = 0;
 		int start = 0;
-		for (int i=0; i<n; i++) {
-			len[i] = Integer.parseInt(st.nextToken());
-			end+=len[i];
-			start = Math.max(start, len[i]);
+		for (int i=1; i<=n; i++) {
+			int a = Integer.parseInt(st.nextToken());
+			start = Math.max(a, start);
+			minute[i] = minute[i-1]+a;
 		}
-		while(start<=end) {
-			int mid = (start+end)/2;
-			int sum = 0;
-			int cnt = 0;
-			for(int j=0; j<n; j++) {
-				if (sum+len[j] > mid) {
-					sum=0;
-					++cnt;
+		int end = minute[n];
+		while (start<=end) {
+			int mid = start+((end-start)/2);
+			int cnt = 1;
+			int ind = 1;
+			for (int j=1; j<=n; j++) {
+				if (minute[j]-minute[ind-1]>mid) {
+					ind = j;
+					cnt++;
 				}
-				sum+=len[j];
 			}
-			if (sum!=0)
-				++cnt;
-			if (cnt > m)
+			if (cnt>m) {
 				start = mid+1;
-			else
+			}
+			else {
 				end = mid-1;
+			}
 		}
 		System.out.println(start);
 	}
-
 }
