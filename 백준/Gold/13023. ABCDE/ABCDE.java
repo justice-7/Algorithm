@@ -28,9 +28,7 @@ public class Main {
 		}
 		ok = 0;
 		for (int j=0; j<n; j++) {
-			visit[j]=1;
 			dfs(j,0);
-			visit[j]=0;
 		}
 		System.out.println(ok);
 	}
@@ -39,12 +37,13 @@ public class Main {
 			ok=1;
 			return;
 		}
-		for (int i=0; i<g.get(node).size(); i++) {
-			if (visit[g.get(node).get(i)]==0) {
-				visit[g.get(node).get(i)] = 1;
-				dfs(g.get(node).get(i), cnt+1);
-				visit[g.get(node).get(i)] = 0;
+		visit[node] = 1;
+		for (int next: g.get(node)) {
+			if (visit[next]==0) {
+				dfs(next, cnt+1);
 			}
 		}
+		visit[node] = 0;
 	}
+
 }
