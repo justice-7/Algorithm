@@ -29,6 +29,8 @@ public class Main {
 		ok = 0;
 		for (int j=0; j<n; j++) {
 			dfs(j,0);
+			if (ok==1)
+				break;
 		}
 		System.out.println(ok);
 	}
@@ -45,5 +47,4 @@ public class Main {
 		}
 		visit[node] = 0;
 	}
-
 }
