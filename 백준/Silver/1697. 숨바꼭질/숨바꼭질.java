@@ -27,6 +27,10 @@ public class Main {
 				int now = q.poll();
 				if (now==k)
 					return;
+				if (now+1==k || now-1==k || now*2==k){
+					cnt++;
+					return;
+				}
 				if (now+1<=100000 && visit[now+1]==0) {
 					q.add(now+1);
 					visit[now+1]=1;
