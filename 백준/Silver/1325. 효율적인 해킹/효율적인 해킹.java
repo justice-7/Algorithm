@@ -11,7 +11,7 @@ public class Main {
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer st;
 	static StringBuilder sb = new StringBuilder();
-	static int n,m,a,b, maxCnt=0;
+	static int n,m,a,b,cnt,maxCnt=0;
 	static List<List<Integer>> g = new ArrayList<List<Integer>>();
 	static int[] visit, result;
 	public static void main(String[] args) throws IOException {
@@ -31,7 +31,9 @@ public class Main {
 		int maxCnt=0;
 		for(int j=1; j<=n; j++) {
 			visit = new int[n+1];
-			result[j] = dfs(j);
+			cnt=0;
+			dfs(j);
+			result[j] = cnt;
 			maxCnt = Math.max(maxCnt, result[j]);
 		}
 		for (int k=1; k<=n; k++) {
@@ -42,17 +44,13 @@ public class Main {
 		System.out.println(sb);
 	}
 
-	public static int dfs(int x) {
-		int cnt = 0;
-		if (visit[x]!=0)
-			return 0;
+	public static void dfs(int x) {
 		visit[x]=1;
 		cnt++;
 		for (int next: g.get(x)) {
 			if (visit[next]==0) {
-				cnt += dfs(next);
+				dfs(next);
 			}
 		}
-		return cnt;
 	}
 }
