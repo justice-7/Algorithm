@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,66 +7,63 @@ import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main {
-	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedReader br=  new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer st;
-	static int v,e;
-	static final int INF = Integer.MAX_VALUE;
-	static int[] minDist, visit;
-	static List<Node>[] graph;
-
-	public static void main(String[] args) throws IOException {
-		st = new StringTokenizer(br.readLine()); 
-		v = Integer.parseInt(st.nextToken()); // 정점 개수
-		e = Integer.parseInt(st.nextToken()); // 간선 개수
+	static StringBuilder sb = new StringBuilder();
+	static int V,E,k,u,v,w;
+	static List<List<Node>> g = new ArrayList<List<Node>>();
+	static int[] result,visit;
+	public static void main(String[] args) throws Exception{
 		st = new StringTokenizer(br.readLine());
-		int start = Integer.parseInt(st.nextToken()); // 시작점 인덱스
-		
-		// 인접 리스트 생성
-		graph = new ArrayList[v+1];
-		for (int i=1; i<=v; i++) {
-			graph[i] = new ArrayList<>();
+		V = Integer.parseInt(st.nextToken());
+		E = Integer.parseInt(st.nextToken());
+		k = Integer.parseInt(br.readLine());
+		for (int i=0; i<=V; i++) {
+			g.add(new ArrayList<>());
 		}
-		for (int i=0; i<e; i++) {
+	
+		for (int i=0; i<E; i++) {
 			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
-			int w = Integer.parseInt(st.nextToken());
-			graph[a].add(new Node(b,w));
+			u = Integer.parseInt(st.nextToken());
+			v = Integer.parseInt(st.nextToken());
+			w = Integer.parseInt(st.nextToken());
+			g.get(u).add(new Node(v,w));
 		}
-		
-		minDist = new int [v+1];
-		Arrays.fill(minDist, INF);
-		visit = new int[v+1];
-		dijkstra(start);
-		for (int j=1; j<=v; j++) 
-			System.out.println(minDist[j]==INF ? "INF":minDist[j]);
+		visit = new int[V+1];
+		result = new int[V+1];
+		Arrays.fill(result, 1000000);
+		dijk();
+		for (int j=1; j<=V; j++) {
+			sb.append(result[j]==1000000?"INF":result[j]).append("\n");
+		}
+		System.out.println(sb);
 	}
 	
-	public static void dijkstra(int start) {
+	public static void dijk() {
 		PriorityQueue<Node> pq = new PriorityQueue<>();
-		pq.offer(new Node(start,0));
-		minDist[start] = 0; // 출발지의 가중치는 0
+		pq.add(new Node(k,0));
+		result[k] = 0;
 		while (!pq.isEmpty()) {
 			Node now = pq.poll();
-			if (visit[now.v]==1)
+			if (visit[now.x]==1)
 				continue;
-			visit[now.v] = 1;
-			for (int i=0 ;i<graph[now.v].size(); i++) {
-				Node next = graph[now.v].get(i);
-				// 기존 최소 비용과 선택된 경유지를 거쳐서 가는 비용을 비교해서 업데이트
-				if (minDist[next.v] > minDist[now.v]+next.w) {
-					minDist[next.v] = minDist[now.v]+next.w;
-					pq.offer(new Node(next.v, minDist[next.v]));
+			visit[now.x] = 1;
+			for(Node next: g.get(now.x)) {
+				if (result[next.x] > result[now.x]+next.w) {
+					result[next.x] = result[now.x]+next.w;
+					pq.add(new Node(next.x, result[next.x]));
 				}
 			}
+			
 		}
 	}
 	
 	public static class Node implements Comparable<Node>{
-		int v;
+		int x;
 		int w;
-		public Node(int v, int w) {
-			this.v = v;
+		public Node(int x, int w) {
+			super();
+			this.x = x;
 			this.w = w;
 		}
 		@Override
@@ -75,4 +71,5 @@ public class Main {
 			return Integer.compare(this.w, o.w);
 		}
 	}
+
 }
