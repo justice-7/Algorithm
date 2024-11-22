@@ -1,4 +1,4 @@
-def per(n, m, cnt, a, visit):
+def per(cnt):
     if cnt==m:
         print(*a)
         return
@@ -6,10 +6,10 @@ def per(n, m, cnt, a, visit):
         if visit[i]==0:
             a[cnt] = i
             visit[i]=1
-            per(n, m, cnt+1, a,visit)
+            per(cnt+1)
             visit[i]=0
 
 n,m = map(int,input().split())
 a=[0]*m
 visit=[0]*(n+1)
-per(n,m, 0, a, visit)
+per(0)
