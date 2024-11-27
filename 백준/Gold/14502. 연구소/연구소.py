@@ -1,5 +1,5 @@
 dx, dy =[0,0,1,-1],[1,-1,0,0]
-visit = []
+visit=[]
 
 def bfs(x,y):
     for i in range(4):
@@ -32,10 +32,10 @@ def sol(x,y,cnt):
         result = max(result, safeCnt())
         return
     for i in range(x,n):
-        for j in range(0,m):
+        for j in range(y if i==x else 0,m):
             if matrix[i][j]==0:
                 matrix[i][j]=1
-                sol(i,j,cnt+1)
+                sol(i,j+1,cnt+1)
                 matrix[i][j]=0
                 
 
