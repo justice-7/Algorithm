@@ -6,10 +6,14 @@ class Solution {
         pq = new PriorityQueue<>();
         for (int sco:scoville)
             pq.offer(sco);
-        while (pq.size()>=2 && pq.peek()<K){
+        while (pq.peek()<K){
+            if (pq.size()==1){
+                answer=-1;
+                break;
+            }
             pq.offer(pq.poll()+(pq.poll())*2);
             answer++;
         }
-        return pq.poll()<K?-1:answer;
+        return answer;
     }
 }
