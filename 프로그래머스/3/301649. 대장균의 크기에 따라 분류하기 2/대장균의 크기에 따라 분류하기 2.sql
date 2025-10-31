@@ -1,15 +1,16 @@
--- 개체 크기 내림차순
--- ID, COLONY_NAME
--- ID 오름차순
-SELECT A.ID,
-    CASE
-        WHEN A.RK/A.CNT <=0.25 THEN 'CRITICAL'
-        WHEN A.RK/A.CNT <=0.50 THEN 'HIGH'
-        WHEN A.RK/A.CNT <=0.75 THEN 'MEDIUM'
-        ELSE 'LOW'
-    END AS COLONY_NAME
-FROM (
-    SELECT ID, SIZE_OF_COLONY, RANK() OVER(ORDER BY SIZE_OF_COLONY DESC) AS RK, COUNT(*) OVER() AS CNT
-    FROM ECOLI_DATA
-    ) AS A
-ORDER BY A.ID;
+-- 크기를 내름차순으로 정렬했을 때 상위 0% ~ 25% 를 'CRITICAL', 26% ~ 50% 를 'HIGH', 51% ~ 75% 를 'MEDIUM', 76% ~ 100% 를 'LOW' 
+--  ID(ID) 와 분류된 이름(COLONY_NAME)을 출력
+-- ID 오름
+WITH E AS (
+    SELECT ID, NTILE(4) OVER(ORDER BY SIZE_OF_COLONY DESC) AS G
+    FROM ECOLI_DATA 
+)
+
+SELECT ID, (CASE WHEN G=1 THEN 'CRITICAL'
+                 WHEN G=2 THEN 'HIGH'
+                 WHEN G=3 THEN 'MEDIUM'
+                 WHEN G=4 THEN 'LOW'
+                 END
+    ) AS COLONY_NAME
+FROM E
+ORDER BY ID
