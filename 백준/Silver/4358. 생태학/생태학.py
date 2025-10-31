@@ -1,16 +1,11 @@
 from collections import defaultdict
 import sys
 
-input = sys.stdin.readline
-
+line = sys.stdin.read().splitlines() # 입력 전체를 한 번에 읽고 개행 제거
 d = defaultdict(int)
-cnt = 0
-while True:
-    s = input().strip()
-    if not s:
-        break # EOF 도달 시 빈 문자열 반환
+cnt = len(line)
+for s in line:
     d[s] += 1
-    cnt+=1
 
-for k, v in sorted(d.items()):
-    print(f'{k} {v/cnt*100:.4f}')
+for k in sorted(d):
+    print(f'{k} {d[k]/cnt*100:.4f}')
