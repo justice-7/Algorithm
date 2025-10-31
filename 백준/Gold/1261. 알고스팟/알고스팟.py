@@ -1,27 +1,26 @@
-from collections import deque
+import heapq
 dr,dc = [1,-1,0,0],[0,0,1,-1]
 m,n = map(int, input().split())
-a = [list(map(int, input().strip())) for _ in range(n)]
+a = [list(map(int, input())) for _ in range(n)]
 INF = float('inf')
-visit = [[INF]*m for _ in range(n)]
+dist = [[INF]*m for _ in range(n)]
 
-def bfs(r,c):
-    q = deque([(r,c)])
-    visit[r][c] = 0
+def dijk(r,c):
+    q = []
+    heapq.heappush(q,(0,r,c))
+    dist[r][c] = 0
     while q:
-        r,c = q.popleft()
+        cost, r,c = heapq.heappop(q)
+        if dist[r][c] < cost:
+            continue
         for i in range(4):
             nr = r+dr[i]
             nc = c+dc[i]
             if nr >= n or nr < 0 or nc >=m or nc<0:
                 continue
-            if a[nr][nc]==1:
-                if visit[nr][nc] > visit[r][c]+1:
-                    visit[nr][nc] = visit[r][c]+1
-                    q.append((nr,nc))
-            elif visit[nr][nc] > visit[r][c]:
-                visit[nr][nc] = visit[r][c]
-                q.appendleft((nr,nc))
-
-bfs(0,0)
-print(visit[n-1][m-1])
+            if dist[nr][nc] > cost + a[nr][nc]:
+                    dist[nr][nc] = cost + a[nr][nc]
+                    heapq.heappush(q,(dist[nr][nc],nr,nc))
+                
+dijk(0,0)
+print(dist[n-1][m-1])
