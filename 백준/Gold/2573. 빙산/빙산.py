@@ -6,10 +6,10 @@ def bfs(r,c):
     q = deque([(r,c)])
     visit[r][c] = 1
     while q:
-        now = q.popleft()
+        x,y = q.popleft()
         for i in range(4):
-            nx = now[0]+dx[i]
-            ny = now[1]+dy[i]
+            nx = x+dx[i]
+            ny = y+dy[i]
             if nx < 0 or nx >= n or ny < 0 or ny >= m:
                 continue
             if visit[nx][ny]==0 and matrix[nx][ny]!=0:
@@ -46,7 +46,7 @@ while True:
     visit = [[0]*m for _ in range(n)]
     splitCnt = 0
     for r,c in ice:
-        if matrix[r][c] !=0 and visit[r][c]==0:
+        if visit[r][c]==0:
             splitCnt+=1
             bfs(r,c)
     if splitCnt==0:
