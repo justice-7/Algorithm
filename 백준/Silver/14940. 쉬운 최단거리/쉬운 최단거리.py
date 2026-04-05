@@ -25,7 +25,4 @@ for i in range(n):
         elif g[i][j] == 2:
             bfs(i,j)
 
-for i in range(n):
-    for j in range(m):
-        print(visit[i][j],end=" ")
-    print()
+print('\n'.join([' '.join(map(str,i)) for i in visit]))
